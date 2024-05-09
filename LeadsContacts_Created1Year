@@ -1,0 +1,29 @@
+SELECT
+l.[_ContactKey] as ContactKey,
+l.FirstName,
+l.LastName,
+l.Email,
+l.Lead_Created_Date__c as CreatedDate
+FROM
+Ent.Lead_Salesforce l
+WHERE
+l.CreatedDate >= DATEADD(day, -365,GETDATE())
+AND
+l.IsConverted = 'FALSE'
+AND
+l.Email IS NOT NULL
+
+UNION
+
+SELECT
+c.[_ContactKey] as ContactKey,
+c.FirstName,
+c.LastName,
+c.Email,
+c.CreatedDate
+FROM
+Ent.Contact_Salesforce c
+WHERE
+c.CreatedDate >= DATEADD(day, -365,GETDATE())
+AND
+c.Email IS NOT NULL
